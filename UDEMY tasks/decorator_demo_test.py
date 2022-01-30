@@ -1,10 +1,26 @@
-def dec_func(org_func):
-    def wrap():
-        print("before")
-        org_func()
-        print("after")
-    return wrap()
+from time import time
+from functools import wraps
 
-@dec_func
-def hi():
-    print("hi")
+def speed_time(function):
+    @wraps(function)
+    def wrapper(*args, **kwargs):
+        start_time = time()
+        res = function(*args, **kwargs)
+        end_time = time()
+        print(f"time {end_time - start_time}")
+        return res
+    return wrapper()
+
+@speed_time
+def sum_lst():
+    return sum([n for n in range(100000000)])
+
+print(sum_lst)
+
+
+
+
+
+
+
+
